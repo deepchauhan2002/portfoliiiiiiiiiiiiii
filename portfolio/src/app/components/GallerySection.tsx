@@ -8,7 +8,7 @@ const GallerySection = () => {
   const [activeTab, setActiveTab] = useState('photos')
   const [selectedMedia, setSelectedMedia] = useState<string | null>(null)
   
-  const [inView, api] = useInView(
+  const [inView] = useInView(
     () => ({
       from: { opacity: 0, transform: 'translateY(100px)' },
       to: { opacity: 1, transform: 'translateY(0px)' },
@@ -101,6 +101,16 @@ const GallerySection = () => {
     config: { tension: 300, friction: 30 }
   })
 
+  const photosAnimation = useSpring({
+    opacity: activeTab === 'photos' ? 1 : 0,
+    transform: activeTab === 'photos' ? 'translateX(0px)' : 'translateX(20px)',
+  })
+
+  const videosAnimation = useSpring({
+    opacity: activeTab === 'videos' ? 1 : 0,
+    transform: activeTab === 'videos' ? 'translateX(0px)' : 'translateX(-20px)',
+  })
+
   return (
     <section className="py-20 bg-gray-50" id="gallery">
       <div className="container mx-auto px-4">
@@ -121,7 +131,6 @@ const GallerySection = () => {
               <animated.div
                 style={tabAnimation}
                 className="absolute top-1 bottom-1 left-1 bg-blue-600 rounded-full transition-all duration-300"
-                style={{ width: '50%' }}
               />
               <div className="relative flex">
                 <button
@@ -146,25 +155,14 @@ const GallerySection = () => {
 
           {/* Photos Tab */}
           {activeTab === 'photos' && (
-            <animated.div
-              style={{
-                ...useSpring({
-                  opacity: 1,
-                  transform: 'translateX(0px)',
-                  from: { opacity: 0, transform: 'translateX(20px)' },
-                })
-              }}
-            >
+            <animated.div style={photosAnimation}>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {photos.map((photo, index) => (
+                {photos.map((photo) => (
                   <animated.div
                     key={photo.id}
                     style={{
-                      ...useSpring({
-                        opacity: inView.opacity,
-                        transform: inView.transform,
-                        delay: index * 100,
-                      })
+                      opacity: inView.opacity,
+                      transform: inView.transform,
                     }}
                     className="group relative bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 cursor-pointer"
                     onClick={() => setSelectedMedia(photo.src)}
@@ -207,25 +205,14 @@ const GallerySection = () => {
 
           {/* Videos Tab */}
           {activeTab === 'videos' && (
-            <animated.div
-              style={{
-                ...useSpring({
-                  opacity: 1,
-                  transform: 'translateX(0px)',
-                  from: { opacity: 0, transform: 'translateX(-20px)' },
-                })
-              }}
-            >
+            <animated.div style={videosAnimation}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {videos.map((video, index) => (
+                {videos.map((video) => (
                   <animated.div
                     key={video.id}
                     style={{
-                      ...useSpring({
-                        opacity: inView.opacity,
-                        transform: inView.transform,
-                        delay: index * 150,
-                      })
+                      opacity: inView.opacity,
+                      transform: inView.transform,
                     }}
                     className="group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 cursor-pointer"
                   >

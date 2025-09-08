@@ -13,7 +13,7 @@ const ContactSection = () => {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   
-  const [inView, api] = useInView(
+  const [inView] = useInView(
     () => ({
       from: { opacity: 0, transform: 'translateY(100px)' },
       to: { opacity: 1, transform: 'translateY(0px)' },
@@ -76,11 +76,11 @@ const ContactSection = () => {
         <animated.div ref={ref} style={inView} className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Let's Work Together
+              Let&apos;s Work Together
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Ready to bring your ideas to life? Whether you need a custom product, 
-              AI solution, or creative content, I'm here to help make it happen.
+              AI solution, or creative content, I&apos;m here to help make it happen.
             </p>
           </div>
 
@@ -98,7 +98,7 @@ const ContactSection = () => {
               <h3 className="text-2xl font-bold mb-8">Get In Touch</h3>
               
               <div className="space-y-6 mb-8">
-                {contactInfo.map((info, index) => (
+                {contactInfo.map((info) => (
                   <div key={info.title} className="flex items-center space-x-4">
                     <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center text-2xl">
                       {info.icon}

@@ -1,13 +1,11 @@
 'use client'
 
-import { animated, useSpring, useInView } from '@react-spring/web'
+import { animated, useInView } from '@react-spring/web'
 import { useState, useRef } from 'react'
 
 const ProjectsSection = () => {
   const ref = useRef<HTMLDivElement>(null)
-  const [activeProject, setActiveProject] = useState(0)
-  
-  const [inView, api] = useInView(
+  const [inView] = useInView(
     () => ({
       from: { opacity: 0, transform: 'translateY(100px)' },
       to: { opacity: 1, transform: 'translateY(0px)' },
@@ -80,7 +78,7 @@ const ProjectsSection = () => {
               Featured Projects
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-              A showcase of custom products and innovative solutions I've built over the past 2 years.
+              A showcase of custom products and innovative solutions I&apos;ve built over the past 2 years.
             </p>
             
             {/* Filter Buttons */}
@@ -103,15 +101,12 @@ const ProjectsSection = () => {
 
           {/* Projects Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-            {filteredProjects.map((project, index) => (
+            {filteredProjects.map((project) => (
               <animated.div
                 key={project.id}
                 style={{
-                  ...useSpring({
-                    opacity: inView.opacity,
-                    transform: inView.transform,
-                    delay: index * 200,
-                  })
+                  opacity: inView.opacity,
+                  transform: inView.transform,
                 }}
                 className="group bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
               >
@@ -194,7 +189,7 @@ const ProjectsSection = () => {
               Interested in collaborating on a custom product?
             </p>
             <button className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
-              Let's Build Something Amazing
+              Let&apos;s Build Something Amazing
             </button>
           </div>
         </animated.div>

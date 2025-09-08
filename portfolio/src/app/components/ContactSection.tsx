@@ -40,74 +40,109 @@ const ContactSection = () => {
     
     setIsSubmitting(false)
     setFormData({ name: '', email: '', subject: '', message: '' })
-    alert('Thank you for your message! I\'ll get back to you soon.')
+    alert('Message sent successfully!')
   }
 
   const contactInfo = [
     {
-      icon: '📧',
       title: 'Email',
       value: 'hello@developer.com',
-      link: 'mailto:hello@developer.com'
+      link: 'mailto:hello@developer.com',
+      icon: '📧',
+      gradient: 'from-blue-500 to-cyan-500'
     },
     {
-      icon: '💼',
       title: 'LinkedIn',
       value: '/in/developer',
-      link: 'https://linkedin.com/in/developer'
+      link: 'https://linkedin.com/in/developer',
+      icon: '💼',
+      gradient: 'from-blue-600 to-indigo-600'
     },
     {
-      icon: '🐙',
       title: 'GitHub',
       value: '@developer',
-      link: 'https://github.com/developer'
+      link: 'https://github.com/developer',
+      icon: '🐙',
+      gradient: 'from-gray-700 to-gray-900'
     },
     {
-      icon: '📱',
       title: 'Phone',
       value: '+1 (555) 123-4567',
-      link: 'tel:+15551234567'
+      link: 'tel:+15551234567',
+      icon: '📱',
+      gradient: 'from-green-500 to-emerald-500'
     }
   ]
 
-  return (
-    <section className="py-20 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white" id="contact">
-      <div className="container mx-auto px-4">
-        <animated.div ref={ref} style={inView} className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Let&apos;s Work Together
-            </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Ready to bring your ideas to life? Whether you need a custom product, 
-              AI solution, or creative content, I&apos;m here to help make it happen.
-            </p>
-          </div>
+  const titleSpring = useSpring({
+    from: { opacity: 0, transform: 'scale(0.8)' },
+    to: inView ? { opacity: 1, transform: 'scale(1)' } : { opacity: 0, transform: 'scale(0.8)' },
+    config: { tension: 280, friction: 60 },
+    delay: 200
+  })
 
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            {/* Contact Information */}
-            <animated.div
-              style={{
-                ...useSpring({
-                  opacity: inView.opacity,
-                  transform: inView.transform,
-                  delay: 200,
-                })
-              }}
-            >
-              <h3 className="text-2xl font-bold mb-8">Get In Touch</h3>
+  const leftContentSpring = useSpring({
+    from: { opacity: 0, transform: 'translateX(-50px)' },
+    to: inView ? { opacity: 1, transform: 'translateX(0px)' } : { opacity: 0, transform: 'translateX(-50px)' },
+    config: { tension: 280, friction: 60 },
+    delay: 400
+  })
+
+  const rightContentSpring = useSpring({
+    from: { opacity: 0, transform: 'translateX(50px)' },
+    to: inView ? { opacity: 1, transform: 'translateX(0px)' } : { opacity: 0, transform: 'translateX(50px)' },
+    config: { tension: 280, friction: 60 },
+    delay: 600
+  })
+
+  return (
+    <section className="section-padding-lg bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900 relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute top-0 left-0 w-full h-full">
+        <div className="absolute top-20 left-20 w-40 h-40 bg-blue-500 rounded-full opacity-10 animate-float"></div>
+        <div className="absolute bottom-32 right-16 w-32 h-32 bg-purple-500 rounded-full opacity-10 animate-float" style={{ animationDelay: '1.5s' }}></div>
+        <div className="absolute top-2/3 right-1/3 w-24 h-24 bg-pink-500 rounded-full opacity-10 animate-float" style={{ animationDelay: '3s' }}></div>
+        
+        {/* Animated grid pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent transform -skew-y-12 animate-pulse"></div>
+        </div>
+      </div>
+
+      <div className="container-custom relative z-10" ref={ref}>
+        <animated.div style={titleSpring} className="text-center mb-20">
+          <h2 className="text-5xl md:text-6xl font-bold mb-6 text-white">
+            Let&apos;s Work <span className="gradient-text-blue">Together</span>
+          </h2>
+          <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto mb-8">
+            Ready to bring your ideas to life? Whether you need a custom product, 
+            AI solution, or creative content, I&apos;m here to help make it happen.
+          </p>
+          <div className="flex justify-center">
+            <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+          </div>
+        </animated.div>
+
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
+          {/* Contact Information */}
+          <animated.div style={leftContentSpring} className="space-y-8">
+            <div className="glass-effect rounded-3xl p-8 card-hover">
+              <h3 className="text-3xl font-bold mb-8 text-white flex items-center">
+                <span className="w-2 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full mr-4"></span>
+                Get In Touch
+              </h3>
               
               <div className="space-y-6 mb-8">
                 {contactInfo.map((info) => (
-                  <div key={info.title} className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center text-2xl">
+                  <div key={info.title} className="flex items-center space-x-4 group">
+                    <div className={`w-14 h-14 bg-gradient-to-r ${info.gradient} rounded-2xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
                       {info.icon}
                     </div>
                     <div>
-                      <div className="text-sm text-gray-400">{info.title}</div>
+                      <div className="text-sm text-gray-400 font-medium uppercase tracking-wider">{info.title}</div>
                       <a 
                         href={info.link}
-                        className="text-white hover:text-blue-400 transition-colors duration-300"
+                        className="text-white hover:text-blue-400 transition-colors duration-300 font-semibold"
                       >
                         {info.value}
                       </a>
@@ -116,59 +151,60 @@ const ContactSection = () => {
                 ))}
               </div>
 
-              <div className="space-y-4">
-                <h4 className="text-lg font-semibold">What I Can Help With:</h4>
+              <div className="space-y-4 mb-8">
+                <h4 className="text-xl font-semibold text-white flex items-center">
+                  <span className="w-2 h-6 bg-gradient-to-b from-green-500 to-blue-500 rounded-full mr-3"></span>
+                  What I Can Help With:
+                </h4>
                 <div className="space-y-3">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                    <span className="text-gray-300">Custom Web Application Development</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                    <span className="text-gray-300">AI Agent Development & Integration</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
-                    <span className="text-gray-300">Full-Stack Product Development</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-pink-400 rounded-full"></div>
-                    <span className="text-gray-300">Creative Content & Photography</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
-                    <span className="text-gray-300">Technical Consulting & Architecture</span>
-                  </div>
+                  {[
+                    { icon: '🚀', text: 'Custom Web Application Development', color: 'blue-400' },
+                    { icon: '🤖', text: 'AI Agent Development & Integration', color: 'green-400' },
+                    { icon: '⚡', text: 'Full-Stack Product Development', color: 'purple-400' },
+                    { icon: '📸', text: 'Creative Content & Photography', color: 'pink-400' },
+                    { icon: '🧠', text: 'Technical Consulting & Architecture', color: 'yellow-400' }
+                  ].map((service) => (
+                    <div key={service.text} className="flex items-center space-x-3 group cursor-pointer">
+                      <div className="text-2xl group-hover:scale-125 transition-transform duration-300">
+                        {service.icon}
+                      </div>
+                      <span className={`text-${service.color} group-hover:text-white transition-colors duration-300 font-medium`}>
+                        {service.text}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
 
-              <div className="mt-8 p-6 bg-white/5 rounded-xl border border-white/10">
-                <h4 className="text-lg font-semibold mb-3">Response Time</h4>
-                <p className="text-gray-300 text-sm">
+              <div className="glass-effect rounded-2xl p-6 border border-white/10">
+                <h4 className="text-lg font-semibold mb-3 text-white flex items-center">
+                  <span className="text-xl mr-2">⏱️</span>
+                  Response Time
+                </h4>
+                <p className="text-gray-300 text-sm leading-relaxed">
                   I typically respond to all inquiries within 24 hours. For urgent projects, 
                   feel free to reach out via phone or LinkedIn for faster communication.
                 </p>
               </div>
-            </animated.div>
+            </div>
+          </animated.div>
 
-            {/* Contact Form */}
-            <animated.div
-              style={{
-                ...useSpring({
-                  opacity: inView.opacity,
-                  transform: inView.transform,
-                  delay: 400,
-                })
-              }}
-              className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10"
-            >
-              <h3 className="text-2xl font-bold mb-6">Send a Message</h3>
+          {/* Contact Form */}
+          <animated.div style={rightContentSpring}>
+            <div className="glass-effect rounded-3xl p-8 card-hover">
+              <h3 className="text-3xl font-bold mb-8 text-white flex items-center">
+                <span className="w-2 h-8 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full mr-4"></span>
+                Send a Message
+              </h3>
               
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div>
+                  <div className="relative">
                     <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
-                      Name *
+                      <span className="flex items-center">
+                        <span className="mr-2">👤</span>
+                        Name *
+                      </span>
                     </label>
                     <input
                       type="text"
@@ -177,14 +213,16 @@ const ContactSection = () => {
                       value={formData.name}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
-                      placeholder="Your name"
+                      className="w-full px-4 py-3 glass-effect border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                      placeholder="Your full name"
                     />
                   </div>
-                  
-                  <div>
+                  <div className="relative">
                     <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                      Email *
+                      <span className="flex items-center">
+                        <span className="mr-2">📧</span>
+                        Email *
+                      </span>
                     </label>
                     <input
                       type="email"
@@ -193,15 +231,18 @@ const ContactSection = () => {
                       value={formData.email}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
-                      placeholder="your.email@example.com"
+                      className="w-full px-4 py-3 glass-effect border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                      placeholder="your@email.com"
                     />
                   </div>
                 </div>
-
-                <div>
+                
+                <div className="relative">
                   <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-2">
-                    Subject *
+                    <span className="flex items-center">
+                      <span className="mr-2">💡</span>
+                      Subject *
+                    </span>
                   </label>
                   <input
                     type="text"
@@ -210,14 +251,17 @@ const ContactSection = () => {
                     value={formData.subject}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
-                    placeholder="Project inquiry, collaboration, etc."
+                    className="w-full px-4 py-3 glass-effect border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                    placeholder="What can I help you with?"
                   />
                 </div>
-
-                <div>
+                
+                <div className="relative">
                   <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
-                    Message *
+                    <span className="flex items-center">
+                      <span className="mr-2">💬</span>
+                      Message *
+                    </span>
                   </label>
                   <textarea
                     id="message"
@@ -226,7 +270,7 @@ const ContactSection = () => {
                     onChange={handleInputChange}
                     required
                     rows={6}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 resize-none"
+                    className="w-full px-4 py-3 glass-effect border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 resize-none"
                     placeholder="Tell me about your project or idea..."
                   />
                 </div>
@@ -234,28 +278,35 @@ const ContactSection = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-4 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 disabled:hover:scale-100"
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-300 transform hover:scale-105 disabled:hover:scale-100 btn-modern animate-pulse-glow"
                 >
                   {isSubmitting ? (
                     <div className="flex items-center justify-center">
-                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                      Sending...
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
+                      Sending Message...
                     </div>
                   ) : (
-                    'Send Message'
+                    <div className="flex items-center justify-center">
+                      <span>Send Message</span>
+                      <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                      </svg>
+                    </div>
                   )}
                 </button>
               </form>
-            </animated.div>
-          </div>
+            </div>
+          </animated.div>
+        </div>
 
-          {/* Footer */}
-          <div className="mt-20 pt-8 border-t border-white/20 text-center">
-            <p className="text-gray-400">
+        {/* Footer */}
+        <div className="mt-20 text-center">
+          <div className="glass-effect rounded-2xl p-6 inline-block">
+            <p className="text-gray-300 text-sm">
               © 2024 Creative Developer Portfolio. Built with Next.js, p5.js & React Spring.
             </p>
           </div>
-        </animated.div>
+        </div>
       </div>
     </section>
   )

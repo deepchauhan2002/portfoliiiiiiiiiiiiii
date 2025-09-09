@@ -9,14 +9,22 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       <Navigation />
-      <main>
+      <main className="relative">
         <section id="home">
           <HeroSection />
         </section>
-        <AboutSection />
-        <ProjectsSection />
-        <GallerySection />
-        <ContactSection />
+        <section id="about">
+          <AboutSection />
+        </section>
+        <section id="projects">
+          <ProjectsSection />
+        </section>
+        <section id="gallery">
+          <GallerySection />
+        </section>
+        <section id="contact">
+          <ContactSection />
+        </section>
       </main>
     </div>
   );
